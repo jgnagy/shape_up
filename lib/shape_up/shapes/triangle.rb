@@ -83,10 +83,14 @@ module ShapeUp
       end
 
       # Calculate the area of a Triangle using Heron's Formula
+      # Rearrangement required for numerical stability (thanks to floats)
       # http://mathworld.wolfram.com/HeronsFormula.html
+      # https://en.wikipedia.org/wiki/Heron's_formula#Numerical_stability
       def area
-        s = semiperimeter.to_f
-        Math.sqrt(s * ((s - a) * (s - b) * (s - c))).to_f.round(precision)
+        x, y, z = sides.sort
+        (
+          0.25 * Math.sqrt((x + (y + c)) * (z - (x - y)) * (z + (x - y)) * (x + (y - z)))
+        ).to_f.round(precision)
       end
 
       # Create two Triangles, formed by bisecting an angle
@@ -97,7 +101,7 @@ module ShapeUp
         # if self is angle A, these are sides [:b, :c]
         other_labels = sides.map(&:label) - [label]
         other_sides = [send(other_labels.first), send(other_labels.last)]
-        degrees = send("angle_#{label}".to_sym).degrees
+        degrees = send("angle_#{label}".to_sym).to_numeric
 
         # the length of the line that bisects self
         # https://en.wikipedia.org/wiki/Bisection#Lengths
@@ -180,7 +184,7 @@ module ShapeUp
 
       # Semiperimeter (http://mathworld.wolfram.com/Semiperimeter.html)
       def semiperimeter
-        (perimeter / 2)
+        (perimeter * 0.5)
       end
 
       # Return an Array of the Sides of the Triangle

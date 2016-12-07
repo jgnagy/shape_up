@@ -53,7 +53,7 @@ triangle.side_c.length    # => 5
 triangle.side_c.altitude  # => 2.4
 triangle.area             # => 6.0
 triangle.perimeter        # => 12
-triangle.semiperimeter    # => 6
+triangle.semiperimeter    # => 6.0
 triangle.inradius         # => 1.0
 ```
 
