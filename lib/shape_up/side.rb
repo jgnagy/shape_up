@@ -16,7 +16,7 @@ module ShapeUp
     end
 
     def altitude
-      (shape.area / (@length / 2)).round(shape.precision)
+      (shape.area / (@length / 2.0)).round(shape.precision)
     end
 
     def to_numeric

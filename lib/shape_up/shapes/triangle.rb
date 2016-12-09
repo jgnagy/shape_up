@@ -169,12 +169,12 @@ module ShapeUp
 
       # Is this an obtuse Triangle? (http://mathworld.wolfram.com/ObtuseTriangle.html)
       def obtuse?
-        angles.sort.last > 90.0
+        angles.map(&:degrees).sort.last > 90.0
       end
 
       # Is this a right Triangle? (http://mathworld.wolfram.com/RightTriangle.html)
       def right?
-        angles.include? 90.0
+        angles.map(&:degrees).include? 90.0
       end
 
       # Is this a scalene Triangle? (http://mathworld.wolfram.com/ScaleneTriangle.html)
