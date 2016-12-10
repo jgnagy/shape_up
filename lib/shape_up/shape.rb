@@ -1,4 +1,5 @@
 module ShapeUp
+  # All shapes should subclass this class
   class Shape
     def unit
       @unit ||= 'unit'
@@ -15,9 +16,8 @@ module ShapeUp
     private
 
     def validate_number(n)
-      unless (n.is_a?(Numeric) || n.respond_to?(:to_numeric)) && n > 0
-        raise "#{n} is not a valid numerical input"
-      end
+      error = "#{n} is not a valid numerical input"
+      raise error unless (n.is_a?(Numeric) || n.respond_to?(:to_numeric)) && n > 0
     end
   end
 end

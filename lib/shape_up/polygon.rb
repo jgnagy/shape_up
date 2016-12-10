@@ -1,4 +1,5 @@
 module ShapeUp
+  # Special kinds of shapes that rely sides and angles
   class Polygon < Shape
     include Comparable
 

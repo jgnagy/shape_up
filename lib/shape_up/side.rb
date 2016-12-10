@@ -1,4 +1,5 @@
 module ShapeUp
+  # Used to describe the length of polygon boundaries
   class Side
     include Measurable
     include Comparable

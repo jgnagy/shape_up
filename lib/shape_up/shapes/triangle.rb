@@ -4,33 +4,28 @@ module ShapeUp
     class Triangle < Polygon
       def initialize(a, b, c, opts = {})
         @precision = opts[:precision] ? opts[:precision] : 10
-        [a, b, c].each {|s| validate_number s }
+        [a, b, c].each { |s| validate_number s }
         @a = Side.new(self, :a, a.is_a?(Side) ? a.to_numeric : a)
         @b = Side.new(self, :b, b.is_a?(Side) ? b.to_numeric : b)
         @c = Side.new(self, :c, c.is_a?(Side) ? c.to_numeric : c)
-        validate_triangle
+        error = "Invalid Triangle Sides [#{[a, b, c].join(', ')}]"
+        raise error unless validate_triangle
       end
 
       # Side a
-      def a
-        @a
-      end
+      attr_reader :a
 
-      alias_method :side_a, :a
+      alias side_a a
 
       # Side b
-      def b
-        @b
-      end
+      attr_reader :b
 
-      alias_method :side_b, :b
+      alias side_b b
 
       # Side c
-      def c
-        @c
-      end
+      attr_reader :c
 
-      alias_method :side_c, :c
+      alias side_c c
 
       # Angle A
       # Uses the Law of Cosines (http://mathworld.wolfram.com/LawofCosines.html)
@@ -93,8 +88,18 @@ module ShapeUp
         ).to_f.round(precision)
       end
 
+      # the length of the line that bisects an angle based on the lengths of sides
+      # https://en.wikipedia.org/wiki/Bisection#Lengths
+      def bisector_length(opposite, adjacent1, adjacent2)
+        other_sides = [adjacent1, adjacent2]
+        2 * Math.sqrt(
+          (other_sides.inject(:*) * semiperimeter) * (semiperimeter - opposite)
+        ) / other_sides.inject(:+)
+      end
+
       # Create two Triangles, formed by bisecting an angle
       # http://mathworld.wolfram.com/AngleBisector.html
+      # rubocop:disable Metrics/AbcSize
       def bisect_on_angle(angle)
         label = angle.is_a?(Symbol) ? angle : angle.label
 
@@ -103,37 +108,14 @@ module ShapeUp
         other_sides = [send(other_labels.first), send(other_labels.last)]
         degrees = send("angle_#{label}".to_sym).to_numeric
 
-        # the length of the line that bisects self
-        # https://en.wikipedia.org/wiki/Bisection#Lengths
-        bisector = (
-          2 * Math.sqrt(
-            (other_sides.inject(:*) * semiperimeter) * (semiperimeter - send(label))
-          ) / other_sides.inject(:+)
-        )
+        # Calculate the length of the bisector of this angle
+        bisector = bisector_length(send(label), other_sides.first, other_sides.last)
 
         # segment of AC with ratio of BA
-        # http://mathworld.wolfram.com/LawofCosines.html
-        line_segment1 = Math.sqrt(
-          (
-            other_sides.first**2 + bisector**2
-          ) - (
-            2 * other_sides.first * bisector * Math.cos(
-              (degrees * ((Math::PI / 180) / 2))
-            )
-          )
-        )
+        line_segment1 = side_from_sas(other_sides.first, (degrees / 2), bisector)
 
         # segment of AC with ratio of BC
-        # http://mathworld.wolfram.com/LawofCosines.html
-        line_segment2 = Math.sqrt(
-          (
-            other_sides.last**2 + bisector**2
-          ) - (
-            2 * other_sides.last * bisector * Math.cos(
-              (degrees * ((Math::PI / 180) / 2))
-            )
-          )
-        )
+        line_segment2 = side_from_sas(other_sides.last, (degrees / 2), bisector)
 
         # return the resulting triangles formed by the bisection
         [
@@ -192,13 +174,27 @@ module ShapeUp
         [a, b, c]
       end
 
+      # Calculate a side from SAS
+      # http://mathworld.wolfram.com/LawofCosines.html
+      def side_from_sas(side1, angle, side2)
+        Math.sqrt(
+          (
+            side1**2 + side2**2
+          ) - (
+            2 * side1 * side2 * Math.cos(
+              (angle * (Math::PI / 180))
+            )
+          )
+        )
+      end
+
       def type
         # http://mathworld.wolfram.com/EquilateralTriangle.html
-        return :equilateral if (a == b && b == c)
+        return :equilateral if a == b && b == c
         # http://mathworld.wolfram.com/IsoscelesTriangle.html
-        return :isosceles if (a == b || b == c || a == c)
+        return :isosceles if a == b || b == c || a == c
         # http://mathworld.wolfram.com/ScaleneTriangle.html
-        return :scalene
+        :scalene
       end
 
       # Is this a valid Triangle?
@@ -216,9 +212,7 @@ module ShapeUp
 
       # http://mathworld.wolfram.com/TriangleInequality.html
       def validate_triangle
-        unless a + b > c && a + c > b && b + c > a
-          raise "Invalid Triangle Sides [#{[a.length, b.length, c.length].join(', ')}]"
-        end
+        a + b > c && a + c > b && b + c > a ? true : false
       end
     end
   end

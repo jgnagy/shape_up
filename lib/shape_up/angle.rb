@@ -1,4 +1,5 @@
 module ShapeUp
+  # Angle onject is used by Polygons to describe side intersections
   class Angle
     include Measurable
     include Comparable
