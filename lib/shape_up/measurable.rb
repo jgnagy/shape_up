@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShapeUp
   # Allows shapes to be measured for comparisons and Math
   module Measurable

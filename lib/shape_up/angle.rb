@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShapeUp
   # Angle onject is used by Polygons to describe side intersections
   class Angle

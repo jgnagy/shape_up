@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module ShapeUp
   module Shapes
     # Object-oriented representation of a Triangle (http://mathworld.wolfram.com/Triangle.html)
     class Triangle < Polygon
+      # rubocop:disable Naming/MethodParameterName
       def initialize(a, b, c, opts = {})
-        @precision = opts[:precision] ? opts[:precision] : 10
+        @precision = opts[:precision] || 10
         [a, b, c].each { |s| validate_number s }
         @a = Side.new(self, :a, a.is_a?(Side) ? a.to_numeric : a)
         @b = Side.new(self, :b, b.is_a?(Side) ? b.to_numeric : b)
@@ -11,6 +14,7 @@ module ShapeUp
         error = "Invalid Triangle Sides [#{[a, b, c].join(', ')}]"
         raise error unless validate_triangle
       end
+      # rubocop:enable Naming/MethodParameterName
 
       # Side a
       attr_reader :a
@@ -123,6 +127,7 @@ module ShapeUp
           self.class.new(line_segment2, other_sides.last.length, bisector, precision: precision)
         ]
       end
+      # rubocop:enable Metrics/AbcSize
 
       # Inradius (http://mathworld.wolfram.com/Inradius.html)
       def inradius
@@ -131,7 +136,7 @@ module ShapeUp
 
       # Is this an acute Triangle? (http://mathworld.wolfram.com/AcuteTriangle.html)
       def acute?
-        angles.sort.last < 90.0
+        angles.max < 90.0
       end
 
       # Is this an equilateral Triangle? (http://mathworld.wolfram.com/EquilateralTriangle.html)
@@ -151,7 +156,7 @@ module ShapeUp
 
       # Is this an obtuse Triangle? (http://mathworld.wolfram.com/ObtuseTriangle.html)
       def obtuse?
-        angles.map(&:degrees).sort.last > 90.0
+        angles.map(&:degrees).max > 90.0
       end
 
       # Is this a right Triangle? (http://mathworld.wolfram.com/RightTriangle.html)
@@ -193,6 +198,7 @@ module ShapeUp
         return :equilateral if a == b && b == c
         # http://mathworld.wolfram.com/IsoscelesTriangle.html
         return :isosceles if a == b || b == c || a == c
+
         # http://mathworld.wolfram.com/ScaleneTriangle.html
         :scalene
       end
@@ -204,8 +210,8 @@ module ShapeUp
       end
 
       # Create a new Triangle based on the current one with a different precision
-      def to_precision(n)
-        self.class.new(a, b, c, precision: n)
+      def to_precision(num)
+        self.class.new(a, b, c, precision: num)
       end
 
       private

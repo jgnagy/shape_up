@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShapeUp
   # Used to describe the length of polygon boundaries
   class Side
@@ -18,6 +20,10 @@ module ShapeUp
 
     def altitude
       (shape.area / (@length / 2.0)).round(shape.precision)
+    end
+
+    def positive?
+      length.positive?
     end
 
     def to_numeric

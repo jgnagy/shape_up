@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShapeUp
   # All shapes should subclass this class
   class Shape
@@ -15,9 +17,9 @@ module ShapeUp
 
     private
 
-    def validate_number(n)
-      error = "#{n} is not a valid numerical input"
-      raise error unless (n.is_a?(Numeric) || n.respond_to?(:to_numeric)) && n > 0
+    def validate_number(num)
+      error = "#{num} is not a valid numerical input"
+      raise error unless (num.is_a?(Numeric) || num.respond_to?(:to_numeric)) && num.positive?
     end
   end
 end

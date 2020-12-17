@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ShapeUp
   # Special kinds of shapes that rely sides and angles
   class Polygon < Shape
@@ -12,7 +14,7 @@ module ShapeUp
     end
 
     def similar?(other)
-      low_prec = [precision, other.precision].sort.first
+      low_prec = [precision, other.precision].min
       to_precision(low_prec).angles.sort == other.to_precision(low_prec).angles.sort
     end
 

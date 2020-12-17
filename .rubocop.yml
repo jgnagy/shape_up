@@ -1,3 +1,6 @@
+Lint/MissingSuper:
+  Enabled: false
+
 Metrics/LineLength:
   Max: 100
 
@@ -12,3 +15,11 @@ Metrics/MethodLength:
 
 Metrics/CyclomaticComplexity:
   Max: 10
+
+Metrics/BlockLength:
+  Max: 40
+  Exclude:
+  - '**/*_spec.rb'
+
+AllCops:
+  NewCops: enable

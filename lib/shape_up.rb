@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Standard Library
 require 'bigdecimal'
 require 'bigdecimal/math'
