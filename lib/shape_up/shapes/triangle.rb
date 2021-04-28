@@ -218,7 +218,7 @@ module ShapeUp
 
       # http://mathworld.wolfram.com/TriangleInequality.html
       def validate_triangle
-        a + b > c && a + c > b && b + c > a ? true : false
+        a + b > c && a + c > b && b + c > a
       end
     end
   end
