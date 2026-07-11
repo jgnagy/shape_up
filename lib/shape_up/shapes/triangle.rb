@@ -82,7 +82,7 @@ module ShapeUp
       def area
         x, y, z = sides.sort
         (
-          0.25 * Math.sqrt((x + (y + c)) * (z - (x - y)) * (z + (x - y)) * (x + (y - z)))
+          0.25 * Math.sqrt((x + (y + z)) * (z - (x - y)) * (z + (x - y)) * (x + (y - z)))
         ).to_f.round(precision)
       end
 
