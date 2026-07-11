@@ -481,8 +481,8 @@ describe ShapeUp::Shapes::Triangle do
       end
     end
 
-    context 'with a 2,40,41 triangle' do
-      subject { ShapeUp::Shapes::Triangle.new(2, 40, 41) }
+    context 'with a 2,41,40 triangle' do
+      subject { ShapeUp::Shapes::Triangle.new(2, 41, 40) }
 
       describe '#right?' do
         it 'should be false' do
@@ -561,22 +561,22 @@ describe ShapeUp::Shapes::Triangle do
       end
 
       describe '#angle_b' do
-        it 'should be 58.7822024297 degrees' do
-          expect(subject.angle_b.degrees).to eq(58.7822024297)
+        it 'should be 118.7670733493 degrees' do
+          expect(subject.angle_b.degrees).to eq(118.7670733493)
         end
 
-        it 'should be 1.025942974 radians' do
-          expect(subject.angle_b.radians).to eq(1.025942974)
+        it 'should be 2.0728764729 radians' do
+          expect(subject.angle_b.radians).to eq(2.0728764729)
         end
       end
 
       describe '#angle_c' do
-        it 'should be 118.7670733493 degrees' do
-          expect(subject.angle_c.degrees).to eq(118.7670733493)
+        it 'should be 58.7822024297 degrees' do
+          expect(subject.angle_c.degrees).to eq(58.7822024297)
         end
 
-        it 'should be 2.0728764729 radians' do
-          expect(subject.angle_c.radians).to eq(2.0728764729)
+        it 'should be 1.025942974 radians' do
+          expect(subject.angle_c.radians).to eq(1.025942974)
         end
       end
 
@@ -591,22 +591,22 @@ describe ShapeUp::Shapes::Triangle do
       end
 
       describe '#side_b' do
-        it 'should have a length of 40.0' do
-          expect(subject.side_b.length).to eq(40.0)
+        it 'should have a length of 41.0' do
+          expect(subject.side_b.length).to eq(41.0)
         end
 
-        it 'should have an altitude of 1.7531667776' do
-          expect(subject.side_b.altitude).to eq(1.7531667776)
+        it 'should have an altitude of 1.7104066123' do
+          expect(subject.side_b.altitude).to eq(1.7104066123)
         end
       end
 
       describe '#side_c' do
-        it 'should have a length of 41.0' do
-          expect(subject.side_c.length).to eq(41.0)
+        it 'should have a length of 40.0' do
+          expect(subject.side_c.length).to eq(40.0)
         end
 
-        it 'should have an altitude of 1.7104066123' do
-          expect(subject.side_c.altitude).to eq(1.7104066123)
+        it 'should have an altitude of 1.7531667776' do
+          expect(subject.side_c.altitude).to eq(1.7531667776)
         end
       end
 
@@ -621,6 +621,10 @@ describe ShapeUp::Shapes::Triangle do
       end
 
       describe '#similar?' do
+        it 'should be similar to a 2,40,41 triangle' do
+          expect(subject.similar?(ShapeUp::Shapes::Triangle.new(2, 40, 41))).to eq(true)
+        end
+
         it 'should be similar to a 3,60,61.5 triangle' do
           expect(subject.similar?(ShapeUp::Shapes::Triangle.new(3, 60, 61.5))).to eq(true)
         end
@@ -631,8 +635,8 @@ describe ShapeUp::Shapes::Triangle do
       end
 
       describe '#bisect_on_angle' do
-        it 'should produce an ∠C bisector length of 1.9401475036' do
-          expect(subject.bisect_on_angle(:c).first.side_c.length).to eq(1.9401475036)
+        it 'should produce an ∠B bisector length of 1.9401475036' do
+          expect(subject.bisect_on_angle(:b).first.side_c.length).to eq(1.9401475036)
         end
       end
     end
