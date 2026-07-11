@@ -39,10 +39,8 @@ module ShapeUp
           self,
           :a,
           (
-            (
-              Math.acos((b**2 + c**2 - a**2) / (2.0 * b * c)) * 180
-            ) / Math::PI
-          )
+            Math.acos(((b**2) + (c**2) - (a**2)) / (2.0 * b * c)) * 180
+          ) / Math::PI
         )
       end
 
@@ -54,10 +52,8 @@ module ShapeUp
           self,
           :b,
           (
-            (
-              Math.acos((a**2 + c**2 - b**2) / (2.0 * a * c)) * 180
-            ) / Math::PI
-          )
+            Math.acos(((a**2) + (c**2) - (b**2)) / (2.0 * a * c)) * 180
+          ) / Math::PI
         )
       end
 
@@ -69,10 +65,8 @@ module ShapeUp
           self,
           :c,
           (
-            (
-              Math.acos((a**2 + b**2 - c**2) / (2.0 * a * b)) * 180
-            ) / Math::PI
-          )
+            Math.acos(((a**2) + (b**2) - (c**2)) / (2.0 * a * b)) * 180
+          ) / Math::PI
         )
       end
 
@@ -110,16 +104,16 @@ module ShapeUp
         # if self is angle A, these are sides [:b, :c]
         other_labels = sides.map(&:label) - [label]
         other_sides = [send(other_labels.first), send(other_labels.last)]
-        degrees = send("angle_#{label}".to_sym).to_numeric
+        degrees = send(:"angle_#{label}").to_numeric
 
         # Calculate the length of the bisector of this angle
         bisector = bisector_length(send(label), other_sides.first, other_sides.last)
 
         # segment of AC with ratio of BA
-        line_segment1 = side_from_sas(other_sides.first, (degrees / 2), bisector)
+        line_segment1 = side_from_sas(other_sides.first, degrees / 2, bisector)
 
         # segment of AC with ratio of BC
-        line_segment2 = side_from_sas(other_sides.last, (degrees / 2), bisector)
+        line_segment2 = side_from_sas(other_sides.last, degrees / 2, bisector)
 
         # return the resulting triangles formed by the bisection
         [
@@ -184,10 +178,10 @@ module ShapeUp
       def side_from_sas(side1, angle, side2)
         Math.sqrt(
           (
-            side1**2 + side2**2
+            (side1**2) + (side2**2)
           ) - (
             2 * side1 * side2 * Math.cos(
-              (angle * (Math::PI / 180))
+              angle * (Math::PI / 180)
             )
           )
         )
