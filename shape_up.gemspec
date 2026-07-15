@@ -31,6 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 1.60'
   spec.add_development_dependency 'rubocop-rake', '~> 0.6'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.25'
-  spec.add_development_dependency 'simplecov', '~> 0.22'
+  spec.add_development_dependency 'simplecov', '~> 1.0'
   spec.add_development_dependency 'yard', '~> 0.9', '>= 0.9.26'
 end
